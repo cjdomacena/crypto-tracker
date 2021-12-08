@@ -1,4 +1,4 @@
-# React boilerplate
+# Heroku
 
 
 ## Packages
