@@ -16,11 +16,11 @@ export const getCoin = async ( {coinID, currency = "USD"}) =>
 	}
 }
 
-export const getCoinChart = async({coinID, currency = "USD", period="24h"}) => {
+export const getCoinChart = async({coinID, period="1w"}) => {
 	try{
 		const req = await fetch(`${ apiURL }/charts?period=${ period }&coinId=${ coinID }`, requestOptions);
 		const data = await req.json();
-		return data;
+		return data.chart;
 	}catch(e){
 		alert(e);
 	}
