@@ -32,12 +32,14 @@ const Dashboard = () =>
 		getNextPageParam: lastPage => lastPage.nextId,
 		onSuccess: (res) =>
 		{
-			if(sort === "rank")
+			if (sort === "rank")
 			{
 				setCoins(res.pages[0].coins)
 			}
-			else if(sort === "priceChange"){
-				setCoins((res.pages[0].coins).sort((a,b) => {
+			else if (sort === "priceChange")
+			{
+				setCoins((res.pages[0].coins).sort((a, b) =>
+				{
 					return parseFloat(b.priceChange1h) - parseFloat(a.priceChange1h);
 				}))
 			}
@@ -63,20 +65,43 @@ const Dashboard = () =>
 		}
 	}
 
-	const sortData = (sortType) => {
+	const sortData = (sortType) =>
+	{
 		setSort(sortType);
 		refetch();
 	}
 
-	const navigateToCoin = (coinID) => {
-		navigate(`coin/${coinID}`)
+	const navigateToCoin = (coinID) =>
+	{
+		navigate(`coin/${ coinID }`)
 	}
-
+	const Loading = () =>
+	{
+		if (isLoading)
+		{
+			return <div className='w-screen h-screen absolute top-0 left-0 z-50 bg-gray-900'>
+				<div className='grid place-items-center w-full h-full'>
+					<button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-white text-base leading-6  transition ease-in-out duration-150 cursor-not-allowed" disabled={true}>
+						<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+						Processing
+					</button>
+				</div>
+			</div>
+		} else
+		{
+			return ""
+		}
+	}
 
 	return (
 
 		<div className="container h-auto mx-auto mb-8">
+	
 			<div className="py-4 overflow-auto ">
+				<Loading />
 				<table className="w-full  overflow-x-auto rounded border border-gray-800">
 					<thead className="bg-gray-800">
 						<tr>
@@ -98,7 +123,8 @@ const Dashboard = () =>
 							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider">
 								Volume (24hr)
 							</th>
-							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider cursor-pointer" onClick={() => {
+							<th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-200 uppercase tracking-wider cursor-pointer" onClick={() =>
+							{
 								setSort("priceChange"); refetch()
 							}}>
 								% Change (1hr)
@@ -106,29 +132,7 @@ const Dashboard = () =>
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-gray-700 overflow-x-scroll">
-						{isLoading && <tr>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-							<td className="px-6 py-4 whitespace-nowrap text-sm text-gray-50">
-								<div className="h-4 bg-gray-600 rounded w-4/5  animate-pulse"></div>
-							</td>
-						</tr>}
+					
 						{coins && coins.map((coin) =>
 						{
 							return (<tr key={coin.id} className="hover:bg-gray-700" onClick={() => navigateToCoin(coin.id)}>
